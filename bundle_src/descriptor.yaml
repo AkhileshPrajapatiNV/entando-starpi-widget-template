@@ -1,0 +1,6 @@
+code: entando-starpi-widget-template
+description: Template for strapi widget
+components:
+  widgets:
+    - ui/widgets/widgets-dir/et-widget/et-widget-descriptor.yaml
+

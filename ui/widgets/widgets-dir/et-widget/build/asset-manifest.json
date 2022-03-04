@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/static/css/main.07776890.css",
+    "main.js": "/static/js/entando-mf-template-0.0.1.js",
+    "main.css.map": "/sourcemaps/static/css/main.07776890.css.map",
+    "main.js.map": "/sourcemaps/static/js/entando-mf-template-0.0.1.js.map",
+    "index.html": "/index.html"
+  },
+  "entrypoints": [
+    "static/css/main.07776890.css",
+    "static/js/entando-mf-template-0.0.1.js"
+  ]
+}
