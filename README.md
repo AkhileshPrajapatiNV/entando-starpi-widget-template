@@ -1,0 +1,1 @@
+# entando-starpi-widget-template
