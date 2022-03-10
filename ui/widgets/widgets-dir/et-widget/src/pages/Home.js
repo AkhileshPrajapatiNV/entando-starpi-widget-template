@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { coreAPIEndpoint, getCustomer, getProject } from '../apis/strapiapi';
-import { Link, HashRouter } from 'react-router-dom';
+import { getContentTypes } from '../apis/strapiapi';
+import { HashRouter } from 'react-router-dom';
 import '../App.css';
 
 
@@ -13,24 +13,15 @@ import '../App.css';
 
     useEffect(() => {
         (async () => {
-            // const { data: customerData } = await getCustomer()
-            await getCustomer(null)
+            await getContentTypes('')
                 .then((data) => {
                 }).catch(async (error) => {
-                    console.log("error: ", error);
                     if (error.response.data.error) {
-                        // headers.Authorization = error.response.data.error.details.strapiToken;
-                        // console.log("headers.Authorization: ", headers.Authorization);
-                        await getCustomer(error.response.data.error.details.strapiToken).then((data) => {
+                        await getContentTypes(error.response.data.error.details.strapiToken).then((data) => {
                             setCustomers(data.data.data);
                         });
                     }
                 });
-            // const { data: projectsData } = await getProject();
-
-            // if (customerData && customerData.data.length) setCustomers(customerData.data)
-            // if (projectsData && projectsData.data.length) setProjects(projectsData.data);
-
         })()
     }, [])
 
@@ -68,7 +59,7 @@ import '../App.css';
                 </HashRouter>
             </h3>
             {customers && customers.map((cust) => {
-                if(cust.uid.startsWith("api")) {
+                if(cust.uid.startsWith("api:")) {
                     return (
                         <div className="card" key={cust.uid}>
                             <h4><b>{cust.info.displayName}</b></h4>

@@ -1,10 +1,11 @@
 import axios from 'axios';
 
 export const coreAPIEndpoint = `${process.env.REACT_APP_PUBLIC_API_STARPI_URL}`
-export const headers = { 
-    'Authorization': null,
-    // 'entkctoken': 'eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJoOHVDQjJFbTUxeDdJS0lqSlItM252SW5UeUk3b215SnU4QXMta0RESi1NIn0.eyJleHAiOjE2NDYzMTA5MzQsImlhdCI6MTY0NjMxMDYzNCwiYXV0aF90aW1lIjoxNjQ2Mjg3NjI1LCJqdGkiOiIwNjdhNjQ5Yi1mZTAyLTRlNTEtYWM1Ny02YTdmYzY1NmFhMjAiLCJpc3MiOiJodHRwOi8vMTkyLjE2OC40My4zLm5pcC5pby9hdXRoL3JlYWxtcy9lbnRhbmRvIiwiYXVkIjoiYWNjb3VudCIsInN1YiI6IjMxYTdjYmVhLWVhNGMtNDEwMS05MzdlLTc2NzRjMTZhMTcxNSIsInR5cCI6IkJlYXJlciIsImF6cCI6ImVudGFuZG8td2ViIiwibm9uY2UiOiIwNDJkYWU1NC0zNGMxLTRlNmUtOWI2ZC1jMTBiZmIzNjQyMWYiLCJzZXNzaW9uX3N0YXRlIjoiNDQzNmJkMzAtYTdmZC00ZGFiLWI1ZTAtYWJiZjRkNjk0MTc2IiwiYWNyIjoiMCIsImFsbG93ZWQtb3JpZ2lucyI6WyJodHRwOi8vMTkyLjE2OC40My4zLm5pcC5pbyJdLCJyZWFsbV9hY2Nlc3MiOnsicm9sZXMiOlsib2ZmbGluZV9hY2Nlc3MiLCJ1bWFfYXV0aG9yaXphdGlvbiJdfSwicmVzb3VyY2VfYWNjZXNzIjp7ImFjY291bnQiOnsicm9sZXMiOlsibWFuYWdlLWFjY291bnQiLCJtYW5hZ2UtYWNjb3VudC1saW5rcyIsInZpZXctcHJvZmlsZSJdfX0sInNjb3BlIjoib3BlbmlkIHByb2ZpbGUgZW1haWwiLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsInByZWZlcnJlZF91c2VybmFtZSI6ImFkbWluIn0.OYnkK9Xtqq0LhaZ17uZSag8FTo8dHNt8zN4frF6bnNj7-r8cdNcQY-CQ_LqUQv7iCe9JLbmOz0vPoQHCeLWhqKXM9tvgEBLk-OqpEDF-C3ld6g8qOk3rmCxS_nFonZXZcvnTLDtmzhQxZGLiLSEkvFWpAuX6_3Iyq70pfqUkgE8xlESHTu_R_ONJpnB7_8CO9RqWxBFrLo0SiA4U1Aq66-b2yKccn1TpqBCMR0EuY1aaZ-0VsdPA_NPUbxFJMM17ofLjHnyi8wWeA9BUq2ToGVLdXidW8Oh_UOrnD0C6K76Qu6UkookoDo7662VMrO3VEJLxLd68TlSgV5ZSGtEl7Q'
-};
+export const  headers = { 
+  'Content-Type': 'application/json',
+  'Authorization': '', 
+  'entkctoken': ''
+}
   
 const strapiEndPoint = `${coreAPIEndpoint}`
 
@@ -13,18 +14,7 @@ export const getPost = async () => {
     return data;
 }
 
-// export const getCustomer = async () => {
-//     debugger
-//     console.log(headers);
-//     const data = await axios.get(`${strapiEndPoint}/customers`
-//     ,{
-//         headers: headers
-//       }
-//       );
-//     return data;
-// }
-
-export const getCustomer_ = async () => {
+export const getCustomer = async () => {
   debugger
   console.log(headers);
   const data = await axios.get(config.url, {
@@ -50,10 +40,17 @@ export const getProject = async () => {
     return data;
 }
 
-export const getCustomer = async (token) => {
-  getDefaultOptions();
-  headers.Authorization = token;
+export const getContentTypes = async (strapiToken) => {
+  console.log('api called: getContentTypes');
+  headers.Authorization = getDefaultOptions();
+  setHeaders(strapiToken);
+  console.log('getContentTypes headers: ', headers);
     return await axios.get(`http://localhost:1337/content-manager/content-types`, { headers: headers });
+}
+
+const setHeaders = (strapiToken) => {
+  headers.entkctoken = getKeycloakToken();
+  headers.Authorization = strapiToken;
 }
 
 const getKeycloakToken = () => {
@@ -61,11 +58,12 @@ const getKeycloakToken = () => {
     console.log('window.entando.keycloak.token: ', window.entando.keycloak.token);
     return window.entando.keycloak.token
   }
-  return ''
+  return 'eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJoOHVDQjJFbTUxeDdJS0lqSlItM252SW5UeUk3b215SnU4QXMta0RESi1NIn0.eyJleHAiOjE2NDY4OTcyNjgsImlhdCI6MTY0Njg5Njk2OCwiYXV0aF90aW1lIjoxNjQ2ODkxNDA1LCJqdGkiOiIwMDJkN2E3YS0zZmVkLTQzNjUtYWRiNi1hMjBjY2RiZDVlYWUiLCJpc3MiOiJodHRwOi8vMTkyLjE2OC40My4zLm5pcC5pby9hdXRoL3JlYWxtcy9lbnRhbmRvIiwiYXVkIjoiYWNjb3VudCIsInN1YiI6IjMxYTdjYmVhLWVhNGMtNDEwMS05MzdlLTc2NzRjMTZhMTcxNSIsInR5cCI6IkJlYXJlciIsImF6cCI6ImVudGFuZG8td2ViIiwibm9uY2UiOiJhYmI5ZTJkYy01YzQ0LTQ5NmEtYmYwMS1iMjIwODJmNjQwNWIiLCJzZXNzaW9uX3N0YXRlIjoiM2U0YzZjMzAtMGRlMy00ZjcyLWI3YWItYjM0YWJlNGI3ZmQwIiwiYWNyIjoiMCIsImFsbG93ZWQtb3JpZ2lucyI6WyJodHRwOi8vMTkyLjE2OC40My4zLm5pcC5pbyJdLCJyZWFsbV9hY2Nlc3MiOnsicm9sZXMiOlsib2ZmbGluZV9hY2Nlc3MiLCJ1bWFfYXV0aG9yaXphdGlvbiJdfSwicmVzb3VyY2VfYWNjZXNzIjp7ImFjY291bnQiOnsicm9sZXMiOlsibWFuYWdlLWFjY291bnQiLCJtYW5hZ2UtYWNjb3VudC1saW5rcyIsInZpZXctcHJvZmlsZSJdfX0sInNjb3BlIjoib3BlbmlkIHByb2ZpbGUgZW1haWwiLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsInByZWZlcnJlZF91c2VybmFtZSI6ImFkbWluIn0.LligFcAt0QveLcetege4tXHhaShcfJt1BCcztbTebAZff7VLPOMgpo1vUNIRQtelTYyZA83pFkuBvWQgyO_qIrKHarX2udC51ubSE_RXB0fWts5t9IMGIqMWtzS1av0ACA9Pj4krzLH-AUYEKpWjiAsMMTTsFq-WCKlwF6kvONmTqvuVkD0Q7L05sAHmcRRvv342zW71lUfELgvNRw0CQO6CotrQ7609EewkK9WNSt4kbwdeQG5INjZJ_q33LpGlo5dcIQrnQput5tIZy3u40joR7OoSCChqfO4869b94Ye0JZp9C2iPy8A2b0NOHtD9SPzYtFeXej-AZ8rBPLRknw';
 }
 
+//currently not in use
 const getDefaultOptions = () => {
-  const token = getKeycloakToken()
+  const token = getKeycloakToken();
   if (!token) return {}
   return {
     headers: {
